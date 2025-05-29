@@ -3,14 +3,13 @@
 #include <iostream>
 #include <cstdlib> 
 
-constexpr int Y_BASE = 20;
-constexpr int TREE_START = 100;
-constexpr int TREE_END = 0;
-constexpr int TREE_COLLISION = 7;
-constexpr int Y_COLLISION = 5;
+constexpr int Y_BASE = 20; // 장애물 기준 y좌표
+constexpr int TREE_START = 100; // 장애물 시작 x좌표
+constexpr int TREE_END = 0; // 나무가 사라질 x좌표
+constexpr int TREE_COLLISION = 7; // 충돌 감지 x범위
 
 Obstacle::Obstacle() : nTreePos(TREE_START), prevXPos(TREE_START) {
-    type = (rand() % 2 == 0) ? LOW_TREE : HIGH_TREE;
+    type = (rand() % 2 == 0) ? LOW_TREE : HIGH_TREE; // 랜덤하게 장애물 선택
 }
 
 // 나무 위치
@@ -20,8 +19,8 @@ void Obstacle::Update()
     if (nTreePos > TREE_END)
         nTreePos -= 2; // 왼쪽으로 이동
     else{
-        nTreePos = TREE_START;
-        type = (rand() % 2 == 0) ? LOW_TREE : HIGH_TREE; // 오른쪽 끝에서 생성
+        nTreePos = TREE_START;  // 오른쪽 끝에서 생성
+        type = (rand() % 2 == 0) ? LOW_TREE : HIGH_TREE;
     }
 }
 
@@ -55,7 +54,8 @@ void Obstacle::DrawTree()
     }
 }
 
-bool Obstacle::IsOutOfScreen() {
+// 화면에서 사라질 위치
+bool Obstacle::IsOutOfScreen() { 
     return nTreePos <= TREE_END;
 }
 
@@ -72,7 +72,7 @@ bool Obstacle::CheckCollision(int dinoY, bool isSliding)
         } 
         else if (type == HIGH_TREE) {
             // 공룡 머리가 장애물 하단에 닿으면 충돌
-            return dinoYPos >= Y_BASE; // 4칸짜리 높은 나무: y 20~23
+            return dinoYPos >= Y_BASE;
         }
     }
     return false;

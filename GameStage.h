@@ -1,6 +1,7 @@
 #ifndef GAMESTAGE_H
 #define GAMESTAGE_H
 
+// 점수에 따라 스테이지, 속도 조절
 class GameStage{
 private:
     int score; // 점수

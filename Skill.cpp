@@ -30,17 +30,17 @@ void Skill::Update() {
 }
 
 void Skill::TryActivateMode() {
-    if (gauge >= maxGauge) {
+    if (gauge >= maxGauge) { // 게이지가 꽉 찼을 때 누르면 스피드 모드
         // 스피드 모드 발동
         isSpeedMode = true;
         isInvincible = true;
         modeTimer = speedDuration;
         gauge = 0;
-    } else if (gauge > 0) {
+    } else if (gauge > 0) { // 게이지가 다 차지 않으면 슬로우 모드
         // 슬로우 모드 발동
         isSlowMode = true;
         isInvincible = false;
-        modeTimer = gauge;
+        modeTimer = gauge; // 현재 게이지에 따라 슬로우 모드 지속 시간 결정
     }
 }
 int Skill::GetGauge() const {
@@ -59,6 +59,7 @@ bool Skill::IsInvincible() const {
     return isInvincible;
 }
 
+// 초기화
 void Skill::ResetModes() {
     isSpeedMode = false;
     isSlowMode = false;
@@ -67,12 +68,13 @@ void Skill::ResetModes() {
     modeTimer = 0;
 }
 
+// 업데이트 외부에서 게이지를 증가시킬 때 사용
 void Skill::AddGauge() {
     if (gauge < maxGauge)
         gauge += gaugeGainPerFrame;
 }
 
-// ✅ 현재 모드에 따른 속도 조정값 반환
+// 현재 모드에 따른 속도 조정값 반환
 int Skill::GetModeSpeedOffset() const {
     if (isSpeedMode) return -15;   // 빠르게
     if (isSlowMode) return +25;    // 느리게

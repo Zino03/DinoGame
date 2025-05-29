@@ -31,12 +31,14 @@ void UIManager::StartScreen()
 void UIManager::DrawScore(const GameStage& gameStage, const Skill& skill)
 {
     Console::SetKeyCursor(0, 0);
+    // 현재 점수, 스테이지 출력
     std::cout << "Score : " << gameStage.GetScore() << "\tStage : " << gameStage.GetStage() << "\n";
-    DrawGauge(skill.GetGauge());
+    DrawGauge(skill.GetGauge()); // 게이지 출력
 }
 
+// 게이지 생성
 void UIManager::DrawGauge(int gauge) {
-    const int barWidth = 20;
+    const int barWidth = 20; // 게이지 크기
     int filled = (gauge * barWidth) / 100;
     
     std::cout << "Gauge : [";
