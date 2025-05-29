@@ -1,28 +1,32 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-enum class ItemType {
-    ScoreBoost,  // 점수 증가 아이템
-    GaugeBoost,  // 게이지 증가 아이템
-    Invincibility // 무적 아이템
+enum ItemType {
+    SCORE_ITEM,
+    GAUGE_ITEM,
+    INVINCIBLE_ITEM
 };
 
 class Item {
 private:
-    int x, y;            // 아이템 위치
-    bool active;         // 화면에 존재하는지
+    int xPos;
+    int yPos;
+    int prevXPos;
+    bool active;
     ItemType type;
 
 public:
     Item();
-    void Spawn(int startX, int startY, ItemType itemType); // 아이템 생성
-    void Update();  // 아이템 위치 이동 등
-    void Draw() const; // 아이템 그리기
+
+    void Spawn();               // 아이템 생성
+    void Update();              // 위치 이동
+    void DrawItem();            // 아이템 그리기
+    bool IsOutOfScreen();       // 화면 밖으로 나갔는지
+    bool CheckCollision(int dinoX, int dinoY); // 충돌 판정
+
     bool IsActive() const;
     void Deactivate();
 
-    int GetX() const;
-    int GetY() const;
     ItemType GetType() const;
 };
 #endif

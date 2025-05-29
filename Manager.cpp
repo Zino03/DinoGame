@@ -5,6 +5,7 @@
 #include "Console.h"
 #include "GameStage.h"
 #include "Skill.h"
+#include "Item.h"
 #include <conio.h>
 #include <Windows.h>
 #include <ctime>
@@ -36,6 +37,8 @@ void Manager::GameStart()
             Dino dino;
             Obstacle obs;
             Skill skill;
+            Item item;
+            int itemSpawnCooldown = 0;
 
             bool bIsCollision = false;
             while(true){
@@ -54,6 +57,26 @@ void Manager::GameStart()
                 if (nCurKey == KEY_L) 
                     skill.TryActivateMode();
 
+                if (itemSpawnCooldown-- <= 0 && !item.IsActive()) {
+                    item.Spawn();
+                    itemSpawnCooldown = 200 + rand() % 200;
+                }
+
+                item.Update();
+                item.DrawItem();
+
+                if (item.CheckCollision(5, dino.GetYPos())) {
+                    switch (item.GetType()) {
+                        case SCORE_ITEM: gameStage.AddScore(50); break;
+                        case GAUGE_ITEM: skill.AddGauge(); break;
+                        case INVINCIBLE_ITEM: 
+                            skill.ResetModes(); 
+                            skill.TryActivateMode(); 
+                            break;
+                    }
+                    item.Deactivate();
+                }
+                
                 obs.Update();
                 obs.DrawTree();
 
