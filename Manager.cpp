@@ -32,7 +32,7 @@ void Manager::GameStart()
         UIManager::StartScreen();
         int key = GetKeyDown();
         if (key == KEY_UP){
-            Console::ClearConsole();
+            system("cls");
             GameStage gameStage;
             Dino dino;
             Obstacle obs;

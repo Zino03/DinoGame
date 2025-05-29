@@ -41,27 +41,30 @@ void Dino::Update()
     if (bIsJumpping)
     {
         // 최고 지점이 아니면 y축 값 상승
-        if (jumpCount == 1 && nYPos < MAX_JUMP && !bIsJumpped)
+        if (jumpCount == 1 && nYPos < MAX_JUMP && !bIsJumpped) // 1단 점프
             nYPos++;
-        else if (jumpCount == 2 && nYPos < MAX_JUMP_TWO && !bIsJumpped)
+        else if (jumpCount == 2 && nYPos < MAX_JUMP_TWO && !bIsJumpped) // 2단 점프
             nYPos++;
+
         // 최고 지점에 도달 후 점프가 끝나면 false 상태로 변경
         else if (bIsJumpped && nYPos == 0)
         {
             bIsJumpped = false;
             bIsJumpping = false;
             jumpCount = 0;
-
         }
+
         // 최고 지점 도달 후 y축 값 감소 (중력)
         else if (bIsJumpped)
             nYPos--;
+
         // 최고 지점에 도달한 경우
         else if (jumpCount == 1 && nYPos == MAX_JUMP)
             bIsJumpped = true; // 밑으로 내려가기 위한 bool 값
         else if (jumpCount == 2 && nYPos == MAX_JUMP_TWO)
             bIsJumpped = true; // 밑으로 내려가기 위한 bool 값
     }
+
     // 점프 중이 아닌데 공중에 있는 경우 y가 0이 될 때까지 감소 (중력)
     else if (nYPos > 0) nYPos--;
     else jumpCount = 0;
@@ -70,7 +73,7 @@ void Dino::Update()
     if (bIsSliding){
         slideTime--;
         if (slideTime <= 0){
-            bIsSliding = false;
+            bIsSliding = false; // slideTime이 0이 되면 슬리이딩 끝
         }
     }
 }
@@ -78,20 +81,22 @@ void Dino::Update()
 // 공룡 그리기
 void Dino::DrawDino()
 {
-    // 이전 위치 지우기
+    // 이전 위치 지우기 (해당 공백으로 덮어서 지우기)
     if (prevSliding) {
-        Console::SetKeyCursor(0, Y_BASE + 2); std::cout << "                    ";
-        Console::SetKeyCursor(0, Y_BASE + 3); std::cout << "                    ";
-        Console::SetKeyCursor(0, Y_BASE + 4); std::cout << "                    ";
+        for (int i = 2; i < 5; i++) {
+            Console::SetKeyCursor(0, Y_BASE + i);
+            std::cout << "                 ";
+        }
     } else {
         for (int i = 0; i < 6; i++) {
             Console::SetKeyCursor(0, Y_BASE - prevYPos + i);
-            std::cout << "                    ";  // 출력된 문자열보다 긴 공백
+            std::cout << "                 ";
         }
     }
 
     // 점프 시에만 발생하는 이펙트 효과 추가
     static int jumpEffect = 1;
+    // 발 움직임을 위한 Toggle
     static bool bFootToggle = false;
 
     if (bIsSliding){
@@ -112,11 +117,11 @@ void Dino::DrawDino()
             std::cout << "<_.|_||_|" << "\n";
         else
             std::cout << "<_.\\_\\\\_\\" << "\n";
+
         if (jumpCount == jumpEffect){
             std::cout << "@*@*@*@*@*@" << "\n";
             jumpEffect++;
         }
-
         if (jumpCount == 0){
             jumpEffect = 1;
         }
@@ -125,4 +130,5 @@ void Dino::DrawDino()
     }
     prevYPos = nYPos;
     prevSliding = bIsSliding;
+    // 다음 프레임을 위한 상태 저장
 }

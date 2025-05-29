@@ -1,9 +1,10 @@
 #include "GameStage.h"
 
 GameStage::GameStage()
-    : score(0), stage(1), speed(30){}
+    : score(0), stage(1), speed(30){} // speed 속 숫자는 게임 루프에서의 딜레이
 
-void GameStage::AddScore(int amount) {
+// 점수 증가
+void GameStage::AddScore(int amount) { 
     score += amount;
     UpdateStage();
 }
@@ -20,6 +21,7 @@ int GameStage::GetSpeed() const {
     return speed;
 }
 
+// 점수에 따라 stage, speed 값 변경
 void GameStage::UpdateStage() {
     if (score >= 300) {
         stage = 4;
