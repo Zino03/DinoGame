@@ -1,9 +1,10 @@
 #include "Skill.h"
+#include "Dino.h"
 
 Skill::Skill() 
-    : gauge(0), isSpeedMode(false), isSlowMode(false), isInvincible(false), modeTimer(0) {}
+    : gauge(0), isSpeedMode(false), isSlowMode(false), modeTimer(0) {}
 
-void Skill::Update() {
+void Skill::Update(Dino dino) {
     if (!isSpeedMode && !isSlowMode) {
         // 평소에는 게이지 증가
         if (gauge < maxGauge)
@@ -25,21 +26,21 @@ void Skill::Update() {
     if ((isSpeedMode || isSlowMode) && --modeTimer <= 0) {
         isSpeedMode = false;
         isSlowMode = false;
-        isInvincible = false;
+        dino.SetInvincible(false, 0);
     }
 }
 
-void Skill::TryActivateMode() {
+void Skill::TryActivateMode(Dino dino) {
     if (gauge >= maxGauge) { // 게이지가 꽉 찼을 때 누르면 스피드 모드
         // 스피드 모드 발동
         isSpeedMode = true;
-        isInvincible = true;
+        dino.SetInvincible(true, speedDuration);
         modeTimer = speedDuration;
         gauge = 0;
     } else if (gauge > 0) { // 게이지가 다 차지 않으면 슬로우 모드
         // 슬로우 모드 발동
         isSlowMode = true;
-        isInvincible = false;
+        dino.SetInvincible(false, 0);
         modeTimer = gauge; // 현재 게이지에 따라 슬로우 모드 지속 시간 결정
     }
 }
@@ -55,23 +56,21 @@ bool Skill::InSlowMode() const {
     return isSlowMode;
 }
 
-bool Skill::IsInvincible() const {
-    return isInvincible;
-}
-
 // 초기화
-void Skill::ResetModes() {
+void Skill::ResetModes(Dino dino) {
     isSpeedMode = false;
     isSlowMode = false;
-    isInvincible = false;
+    dino.SetInvincible(false, 0);
     gauge = 0;
     modeTimer = 0;
 }
 
 // 업데이트 외부에서 게이지를 증가시킬 때 사용
 void Skill::AddGauge() {
-    if (gauge < maxGauge)
-        gauge += gaugeGainPerFrame;
+    if (gauge + 20 <= maxGauge)
+        gauge += 20;
+    else
+        gauge = maxGauge;
 }
 
 // 현재 모드에 따른 속도 조정값 반환

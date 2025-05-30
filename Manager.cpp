@@ -52,14 +52,14 @@ void Manager::GameStart()
                 
                 // 모드 전환 키 입력 처리
                 if (nCurKey == KEY_L) 
-                    skill.TryActivateMode(); 
+                    skill.TryActivateMode(dino); 
 
                 // 무적 상태가 아니면 충돌 판정
-                if (!skill.IsInvincible() && obs.CheckCollision(dino.GetYPos(), dino.IsSliding())) {
+                if (!dino.IsInvincible() && obs.CheckCollision(dino.GetYPos(), dino.IsSliding())) {
                     bIsCollision = true;
                 }
 
-                skill.Update();   // 모드 지속 시간 관리
+                skill.Update(dino);   // 모드 지속 시간 관리
                 if (!skill.InSpeedMode() && !skill.InSlowMode()) {
                     skill.AddGauge();
                 }
@@ -67,7 +67,7 @@ void Manager::GameStart()
                 // 아이템 생성
                 if (itemSpawnCooldown-- <= 0 && !item.IsActive()) {
                     item.Spawn();
-                    itemSpawnCooldown = 200 + rand() % 200;
+                    itemSpawnCooldown = 100 + rand() % 100;
                 }
                 item.Update();
                 item.DrawItem();
@@ -76,11 +76,10 @@ void Manager::GameStart()
                 if (item.CheckCollision(5, dino.GetYPos())) {
                     switch (item.GetType()) {
                         // 아이템에 따라 다른 효과 함수 호출
-                        case SCORE_ITEM: gameStage.AddScore(50); break;
+                        case SCORE_ITEM: gameStage.AddScore(100); break;
                         case GAUGE_ITEM: skill.AddGauge(); break;
                         case INVINCIBLE_ITEM: 
-                            skill.ResetModes(); 
-                            skill.TryActivateMode(); 
+                            dino.SetInvincible(true, 100);
                             break;
                     }
                     item.Deactivate();

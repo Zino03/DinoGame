@@ -1,5 +1,6 @@
 #include "Dino.h"
 #include "Console.h"
+#include "Skill.h"
 #include <iostream>
 
 constexpr int Y_BASE = 20; // 공룡 초기 y축 위치
@@ -7,7 +8,7 @@ constexpr int MAX_JUMP = 6; // 1단 점프 높이
 constexpr int MAX_JUMP_TWO = 12; // 2단 점프 높이
 
 
-Dino::Dino() : nYPos(0), bIsSliding(false), bIsJumpping(false), bIsJumpped(false), bFootToggle(false), jumpCount(0), slideTime(0), prevSliding(false) {}
+Dino::Dino() : nYPos(0), bIsSliding(false), bIsJumpping(false), bIsJumpped(false), bFootToggle(false), jumpCount(0), slideTime(0), prevSliding(false), invincibleTime(0) {}
 
 // 점프 상태로 변경
 void Dino::SetJump() { 
@@ -30,6 +31,15 @@ void Dino::SetSliding(){
 
 // 슬라이딩 여부 확인
 bool Dino::IsSliding() const { return bIsSliding; }
+
+// 무적 상태로 변경
+void Dino::SetInvincible(bool status, int time){
+    bisInvincible = status;
+    invincibleTime = time;
+}
+
+// 무적 상태 여부 확인
+bool Dino::IsInvincible() const { return bisInvincible; }
 
 // 현재 y축 위치 리턴
 int Dino::GetYPos() const { return nYPos; }
@@ -69,12 +79,20 @@ void Dino::Update()
     else if (nYPos > 0) nYPos--;
     else jumpCount = 0;
     
-    // 슬라이딩 중인지확인
+    // 슬라이딩 중인지 확인
     if (bIsSliding){
         slideTime--;
         if (slideTime <= 0){
             bIsSliding = false; // slideTime이 0이 되면 슬리이딩 끝
         }
+    }
+
+    // 무적 상태 관리
+    if (bisInvincible){
+        invincibleTime--;
+    }
+    if (invincibleTime <= 0){
+        SetInvincible(false, 0);
     }
 }
 
@@ -85,12 +103,12 @@ void Dino::DrawDino()
     if (prevSliding) {
         for (int i = 2; i < 5; i++) {
             Console::SetKeyCursor(0, Y_BASE + i);
-            std::cout << "                 ";
+            std::cout << "                   ";
         }
     } else {
         for (int i = 0; i < 6; i++) {
             Console::SetKeyCursor(0, Y_BASE - prevYPos + i);
-            std::cout << "                 ";
+            std::cout << "                   ";
         }
     }
 
@@ -98,6 +116,25 @@ void Dino::DrawDino()
     static int jumpEffect = 1;
     // 발 움직임을 위한 Toggle
     static bool bFootToggle = false;
+
+    if (bisInvincible){
+        if (bIsSliding){
+        // 슬라이딩 상태
+        Console::SetKeyCursor(0, Y_BASE + 2);
+        std::cout << "                  *" << "\n";
+        std::cout << "                   *" << "\n";
+        std::cout << "                *" << "\n";
+    }
+    else{
+        // 점프에 따라
+        Console::SetKeyCursor(0, Y_BASE - nYPos);
+        std::cout << "               *" << "\n";
+        std::cout << "                *" << "\n";
+        std::cout << "              *" << "\n";
+        std::cout << "            *" << "\n";
+        std::cout << "            *" << "\n";
+        }
+    }
 
     if (bIsSliding){
         // 슬라이딩 상태 그리기

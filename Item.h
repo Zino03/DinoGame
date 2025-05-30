@@ -16,6 +16,7 @@ private:
     int prevXPos;
     bool active; // 아이템 활성화 여부
     ItemType type;
+    int invincibleTime;
 
 public:
     Item();

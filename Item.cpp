@@ -9,7 +9,7 @@ constexpr int ITEM_BASE_Y = 20; // 아이템 y축 위치
 constexpr int ITEM_COLLISION_X = 7; // 공룡과 x축 충돌
 
 Item::Item()
-    : xPos(ITEM_START_X), yPos(ITEM_BASE_Y), prevXPos(ITEM_START_X), active(false), type(SCORE_ITEM) {}
+    : xPos(ITEM_START_X), yPos(ITEM_BASE_Y), prevXPos(ITEM_START_X), active(false), type(SCORE_ITEM), invincibleTime(50){}
 
 void Item::Spawn() {
     xPos = ITEM_START_X;
