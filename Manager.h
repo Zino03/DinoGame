@@ -7,5 +7,4 @@ class Manager
 public:
     void GameStart();
 };
-
 #endif

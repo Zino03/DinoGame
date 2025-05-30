@@ -59,10 +59,7 @@ void Manager::GameStart()
                     bIsCollision = true;
                 }
 
-                skill.Update(dino);   // 모드 지속 시간 관리
-                if (!skill.InSpeedMode() && !skill.InSlowMode()) {
-                    skill.AddGauge();
-                }
+                skill.Update(dino);   // 모드 지속 시간 및 게이지 관리
                 
                 // 아이템 생성
                 if (itemSpawnCooldown-- <= 0 && !item.IsActive()) {

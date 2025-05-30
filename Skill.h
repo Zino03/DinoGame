@@ -12,16 +12,15 @@ private:
 
     static constexpr int maxGauge = 100; // 게이지 최대치
     static constexpr double gaugeGainPerFrame = 1; // 프레임 당 게이지 증가량
-    static constexpr int speedDuration = 150; // 스피드 모드 지속 시간
+    static constexpr int speedConsumePerFrame = 2; // 스피드 모드 지속 시간
     static constexpr int slowConsumePerFrame = 1; // 슬로우 모드 시 매 프레임 게이지 소모량
 
 public:
     Skill();
 
-    void Update(Dino dino); // 상태 업데이트
-    void TryActivateMode(Dino dino); // 모드 발동
-    void AddGauge(); // 외부에서 게이지 증가
-    void ResetModes(Dino dino); // 모드 리셋
+    void Update(Dino &dino); // 상태 업데이트
+    void TryActivateMode(Dino &dino); // 모드 발동
+    void AddGauge(); // 외부에서 게이지 증가s
 
     int GetGauge() const; // 현재 게이지 리턴
     int GetModeSpeedOffset() const; // 모드에 따른 속도 변화

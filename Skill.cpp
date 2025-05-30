@@ -4,7 +4,7 @@
 Skill::Skill() 
     : gauge(0), isSpeedMode(false), isSlowMode(false), modeTimer(0) {}
 
-void Skill::Update(Dino dino) {
+void Skill::Update(Dino &dino) {
     if (!isSpeedMode && !isSlowMode) {
         // 평소에는 게이지 증가
         if (gauge < maxGauge)
@@ -21,6 +21,17 @@ void Skill::Update(Dino dino) {
             modeTimer = 0;
         }
     }
+    else if (isSpeedMode) {
+        // 스피드 모드일 때는 게이지가 좀 더 빨리 감소
+        if (gauge > 0)
+            gauge -= speedConsumePerFrame;  // 감속할 양을 상수로 지정
+        else {
+            // 게이지 다 소모되면 스피드 모드 해제
+            gauge = 0;
+            isSpeedMode = false;
+            modeTimer = 0;
+        }
+    }
 
     // 스피드 모드 혹은 슬로우 모드 유지 시간 관리
     if ((isSpeedMode || isSlowMode) && --modeTimer <= 0) {
@@ -30,13 +41,12 @@ void Skill::Update(Dino dino) {
     }
 }
 
-void Skill::TryActivateMode(Dino dino) {
+void Skill::TryActivateMode(Dino &dino) {
     if (gauge >= maxGauge) { // 게이지가 꽉 찼을 때 누르면 스피드 모드
         // 스피드 모드 발동
         isSpeedMode = true;
-        dino.SetInvincible(true, speedDuration);
-        modeTimer = speedDuration;
-        gauge = 0;
+        dino.SetInvincible(true, maxGauge);
+        modeTimer = maxGauge;
     } else if (gauge > 0) { // 게이지가 다 차지 않으면 슬로우 모드
         // 슬로우 모드 발동
         isSlowMode = true;
@@ -54,15 +64,6 @@ bool Skill::InSpeedMode() const {
 
 bool Skill::InSlowMode() const {
     return isSlowMode;
-}
-
-// 초기화
-void Skill::ResetModes(Dino dino) {
-    isSpeedMode = false;
-    isSlowMode = false;
-    dino.SetInvincible(false, 0);
-    gauge = 0;
-    modeTimer = 0;
 }
 
 // 업데이트 외부에서 게이지를 증가시킬 때 사용

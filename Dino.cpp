@@ -2,13 +2,14 @@
 #include "Console.h"
 #include "Skill.h"
 #include <iostream>
+#include <fstream>
 
 constexpr int Y_BASE = 20; // 공룡 초기 y축 위치
 constexpr int MAX_JUMP = 6; // 1단 점프 높이
 constexpr int MAX_JUMP_TWO = 12; // 2단 점프 높이
 
 
-Dino::Dino() : nYPos(0), bIsSliding(false), bIsJumpping(false), bIsJumpped(false), bFootToggle(false), jumpCount(0), slideTime(0), prevSliding(false), invincibleTime(0) {}
+Dino::Dino() : nYPos(0), bIsSliding(false), bIsJumpping(false), bIsJumpped(false), bFootToggle(false), jumpCount(0), slideTime(0), prevSliding(false), bisInvincible(false), invincibleTime(0) {}
 
 // 점프 상태로 변경
 void Dino::SetJump() { 
@@ -44,7 +45,7 @@ bool Dino::IsInvincible() const { return bisInvincible; }
 // 현재 y축 위치 리턴
 int Dino::GetYPos() const { return nYPos; }
 
-// 공룡 위치 업데이트
+// 공룡 위치 및 상태 업데이트
 void Dino::Update()
 {
     // 점프 중인지 확인
@@ -89,14 +90,14 @@ void Dino::Update()
 
     // 무적 상태 관리
     if (bisInvincible){
-        invincibleTime--;
-    }
-    if (invincibleTime <= 0){
+        invincibleTime -= 2;
+        if (invincibleTime <= 0){
         SetInvincible(false, 0);
+        }
     }
 }
 
-// 공룡 그리기
+// 공룡 그리기  
 void Dino::DrawDino()
 {
     // 이전 위치 지우기 (해당 공백으로 덮어서 지우기)
@@ -116,25 +117,6 @@ void Dino::DrawDino()
     static int jumpEffect = 1;
     // 발 움직임을 위한 Toggle
     static bool bFootToggle = false;
-
-    if (bisInvincible){
-        if (bIsSliding){
-        // 슬라이딩 상태
-        Console::SetKeyCursor(0, Y_BASE + 2);
-        std::cout << "                  *" << "\n";
-        std::cout << "                   *" << "\n";
-        std::cout << "                *" << "\n";
-    }
-    else{
-        // 점프에 따라
-        Console::SetKeyCursor(0, Y_BASE - nYPos);
-        std::cout << "               *" << "\n";
-        std::cout << "                *" << "\n";
-        std::cout << "              *" << "\n";
-        std::cout << "            *" << "\n";
-        std::cout << "            *" << "\n";
-        }
-    }
 
     if (bIsSliding){
         // 슬라이딩 상태 그리기
@@ -168,4 +150,31 @@ void Dino::DrawDino()
     prevYPos = nYPos;
     prevSliding = bIsSliding;
     // 다음 프레임을 위한 상태 저장
+
+    if (bisInvincible) {
+        static bool toggle = false;
+        toggle = !toggle;
+
+        const char* effect1 = toggle ? "@" : "*";
+        const char* effect2 = toggle ? "*" : "@";
+
+        if (bIsSliding) {
+            // 슬라이딩 상태: Y_BASE + 2 ~ Y_BASE + 4 줄을 사용
+            Console::SetKeyCursor(17, Y_BASE + 2);
+            std::cout << effect1;
+            Console::SetKeyCursor(17, Y_BASE + 3);
+            std::cout << effect2;
+            Console::SetKeyCursor(17, Y_BASE + 4);
+            std::cout << effect1;
+        } else {
+            // 점프 또는 기본 상태: Y_BASE - nYPos ~ +4 줄 사용
+            for (int i = 0; i < 5; ++i) {
+                Console::SetKeyCursor(18, Y_BASE - nYPos + i);
+                std::cout << (toggle ? "@" : "*");
+            }
+        }
+    }
+
+    std::ofstream log("debug_log.txt", std::ios::app); // 덮어쓰기 방지
+    log << "[DEBUG] 무적: " << IsInvincible() << "\n";
 }
