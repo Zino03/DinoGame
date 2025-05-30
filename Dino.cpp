@@ -2,7 +2,6 @@
 #include "Console.h"
 #include "Skill.h"
 #include <iostream>
-#include <fstream>
 
 constexpr int Y_BASE = 20; // 공룡 초기 y축 위치
 constexpr int MAX_JUMP = 6; // 1단 점프 높이
@@ -104,12 +103,12 @@ void Dino::DrawDino()
     if (prevSliding) {
         for (int i = 2; i < 5; i++) {
             Console::SetKeyCursor(0, Y_BASE + i);
-            std::cout << "                   ";
+            std::cout << "                 ";
         }
     } else {
         for (int i = 0; i < 6; i++) {
             Console::SetKeyCursor(0, Y_BASE - prevYPos + i);
-            std::cout << "                   ";
+            std::cout << "              ";
         }
     }
 
@@ -147,10 +146,12 @@ void Dino::DrawDino()
         // 공룡 발 위치 변경
         bFootToggle = !bFootToggle;
     }
+
+    // 다음 프레임을 위한 상태 저장
     prevYPos = nYPos;
     prevSliding = bIsSliding;
-    // 다음 프레임을 위한 상태 저장
 
+    // 무적 상태 이펙트
     if (bisInvincible) {
         static bool toggle = false;
         toggle = !toggle;
@@ -174,7 +175,4 @@ void Dino::DrawDino()
             }
         }
     }
-
-    std::ofstream log("debug_log.txt", std::ios::app); // 덮어쓰기 방지
-    log << "[DEBUG] 무적: " << IsInvincible() << "\n";
 }

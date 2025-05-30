@@ -15,3 +15,7 @@ g++ main.cpp Console.cpp Dino.cpp Manager.cpp Obstacle.cpp UIManager.cpp GameSta
 게이지를 소모하여 슬로우 모드 사용 가능
 아이템 (점수, 게이지) ----------- x
 
+디버깅 (파일에 디버깅 내용 출력)
+#include <fstream>
+std::ofstream log("debug_log.txt", std::ios::app); // 덮어쓰기 방지
+log << "[DEBUG] 무적: " << IsInvincible() << "\n";
