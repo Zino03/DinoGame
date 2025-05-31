@@ -44,6 +44,15 @@ bool Dino::IsInvincible() const { return bisInvincible; }
 // 현재 y축 위치 리턴
 int Dino::GetYPos() const { return nYPos; }
 
+// 충돌 박스 리턴
+BoundingBox Dino::GetBoundingBox() const {
+    if (bIsSliding) {
+        return {0, Y_BASE + 2, 18, 3}; // 슬라이딩일 때: 좌상단(0, Y_BASE+2), 가로 14, 세로 3
+    } else {
+        return {0, Y_BASE - nYPos, 15, 5}; // 기본 상태: 좌상단(0, 점프 위치), 가로 14, 세로 5
+    }
+}
+
 // 공룡 위치 및 상태 업데이트
 void Dino::Update()
 {
@@ -175,4 +184,5 @@ void Dino::DrawDino()
             }
         }
     }
+
 }

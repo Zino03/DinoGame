@@ -55,7 +55,7 @@ void Manager::GameStart()
                     skill.TryActivateMode(dino); 
 
                 // 무적 상태가 아니면 충돌 판정
-                if (!dino.IsInvincible() && obs.CheckCollision(dino.GetYPos(), dino.IsSliding())) {
+                if (!dino.IsInvincible() && dino.GetBoundingBox().Intersects(obs.GetBoundingBox())) {
                     bIsCollision = true;
                 }
 
@@ -70,7 +70,7 @@ void Manager::GameStart()
                 item.DrawItem();
 
                 // 아이템과 충돌 여부 체크
-                if (item.CheckCollision(5, dino.GetYPos())) {
+                if (dino.GetBoundingBox().Intersects(item.GetBoundingBox())) {
                     switch (item.GetType()) {
                         // 아이템에 따라 다른 효과 함수 호출
                         case SCORE_ITEM: gameStage.AddScore(100); break;

@@ -2,7 +2,7 @@ Google 공룡 게임 c++ 버전
 대부분의 사람들이 알고 있는 공룡 게임을 c++ 언어로 개발한 게임을 택했습니다.
 출처 : https://gist.github.com/Eskeptor/703483ac907c847ed79e9ed119c9d58f
 
-g++ main.cpp Console.cpp Dino.cpp Manager.cpp Obstacle.cpp UIManager.cpp GameStage.cpp Skill.cpp Item.cpp -o game
+g++ main.cpp Console.cpp Dino.cpp Manager.cpp Obstacle.cpp UIManager.cpp GameStage.cpp Skill.cpp Item.cpp BoundingBox.cpp -o game
 
 공룡 게임 2.0
 게임시작, 종료 화면 만들기 ----------- O

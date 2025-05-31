@@ -1,7 +1,9 @@
 #ifndef DINO_H
 #define DINO_H
+#include "BoundingBox.h"
 
 // 캐릭터(공룡)의 상태 관리 및 그리기
+
 class Dino
 {
 private:
@@ -28,6 +30,7 @@ public:
     bool IsJumping() const; // 점프 중 여부 반환
     bool IsSliding() const; // 슬라이딩 중 여부 반환
     bool IsInvincible() const; // 무적 여부 반환
+    BoundingBox GetBoundingBox() const; // 충돌 박스
 };
 
 #endif
