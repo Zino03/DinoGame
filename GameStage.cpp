@@ -23,7 +23,27 @@ int GameStage::GetSpeed() const {
 
 // 점수에 따라 stage, speed 값 변경
 void GameStage::UpdateStage() {
-    if (score >= 1500) {
+    if (score >= 4000) {
+        stage = 9;
+        speed = 10;
+    }
+    else if (score >= 3500) {
+        stage = 8;
+        speed = 20;
+    }
+    else if (score >= 3000) {
+        stage = 7;
+        speed = 25;
+    }
+    else if (score >= 2500) {
+        stage = 6;
+        speed = 30;
+    }
+    else if (score >= 2000) {
+        stage = 5;
+        speed = 40;
+    }
+    else if (score >= 1500) {
         stage = 4;
         speed = 45;
     } else if (score >= 1000) {

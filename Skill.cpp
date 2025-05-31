@@ -77,6 +77,6 @@ void Skill::AddGauge(int amount) {
 // 현재 모드에 따른 속도 조정값 반환
 int Skill::GetModeSpeedOffset() const {
     if (isSpeedMode) return -15;   // 빠르게
-    if (isSlowMode) return +25;    // 느리게
+    if (isSlowMode) return +15;    // 느리게
     return 0;                      // 기본
 }

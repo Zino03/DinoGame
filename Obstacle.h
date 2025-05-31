@@ -3,8 +3,9 @@
 #include "BoundingBox.h"
 
 enum ObstacleType {
-    LOW_TREE,   // 슬라이딩 필요
-    HIGH_TREE   // 점프 필요
+    LOW, // 슬라이딩 필요
+    HIGH, // 점프 필요
+    TWO_HIGH // 2단 점프
 };
 
 // 장애물 생성, 이동, 충돌 담당

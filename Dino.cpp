@@ -101,7 +101,6 @@ void Dino::Update()
         invincibleTime -= 2;
         if (invincibleTime <= 0){
             SetInvincible(false, 0);
-            system("cls");
         }
     }
 }
@@ -109,17 +108,12 @@ void Dino::Update()
 // 공룡 그리기  
 void Dino::DrawDino()
 {
-    // 이전 위치 지우기 (해당 공백으로 덮어서 지우기)
-    if (prevSliding) {
-        for (int i = 2; i < 5; i++) {
-            Console::SetKeyCursor(0, Y_BASE + i);
-            std::cout << "                 ";
-        }
-    } else {
-        for (int i = 0; i < 6; i++) {
-            Console::SetKeyCursor(0, Y_BASE - prevYPos + i);
-            std::cout << "              ";
-        }
+    // 이전 위치 지우기 (해당 공백으로 덮어서 지우기){
+    for (int i = 0; i < 6; i++) {
+        Console::SetKeyCursor(0, Y_BASE - prevYPos + i);
+        std::cout << "              ";
+        Console::SetKeyCursor(18, Y_BASE - prevYPos + i); // 무적 이펙트
+        std::cout << " ";
     }
 
     // 점프 시에만 발생하는 이펙트 효과 추가
@@ -130,8 +124,8 @@ void Dino::DrawDino()
     if (bIsSliding){
         // 슬라이딩 상태 그리기
         Console::SetKeyCursor(0, Y_BASE + 2);
-        std::cout << "    .^^^________" << "\n";
-        std::cout << " _/      _______)" << "\n";
+        std::cout << "    .^^^_____" << "\n";
+        std::cout << " _/      ____)" << "\n";
         std::cout << "<_.\\_\\\\_\\" << "\n";
     }
     else{
@@ -140,7 +134,7 @@ void Dino::DrawDino()
         std::cout << "           __" << "\n";
         std::cout << "          / _)" << "\n";
         std::cout << "    .^^^-/ /" << "\n";
-        std::cout << " _/      /" << "\n";
+        std::cout << " _/       /" << "\n";
         if (bFootToggle)
             std::cout << "<_.|_||_|" << "\n";
         else
@@ -170,15 +164,15 @@ void Dino::DrawDino()
         const char* effect2 = toggle ? "*" : "@";
 
         if (bIsSliding) {
-            // 슬라이딩 상태: Y_BASE + 2 ~ Y_BASE + 4 줄을 사용
-            Console::SetKeyCursor(17, Y_BASE + 2);
+            // 슬라이딩 상태
+            Console::SetKeyCursor(18, Y_BASE + 2);
             std::cout << effect1;
-            Console::SetKeyCursor(17, Y_BASE + 3);
+            Console::SetKeyCursor(18, Y_BASE + 3);
             std::cout << effect2;
-            Console::SetKeyCursor(17, Y_BASE + 4);
+            Console::SetKeyCursor(18, Y_BASE + 4);
             std::cout << effect1;
         } else {
-            // 점프 또는 기본 상태: Y_BASE - nYPos ~ +4 줄 사용
+            // 점프 또는 기본 상태
             for (int i = 0; i < 5; ++i) {
                 Console::SetKeyCursor(18, Y_BASE - nYPos + i);
                 std::cout << (toggle ? "@" : "*");
