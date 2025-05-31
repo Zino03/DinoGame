@@ -67,9 +67,9 @@ bool Skill::InSlowMode() const {
 }
 
 // 업데이트 외부에서 게이지를 증가시킬 때 사용
-void Skill::AddGauge() {
-    if (gauge + 20 <= maxGauge)
-        gauge += 20;
+void Skill::AddGauge(int amount) {
+    if (gauge + amount <= maxGauge)
+        gauge += amount;
     else
         gauge = maxGauge;
 }

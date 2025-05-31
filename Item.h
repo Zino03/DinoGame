@@ -14,7 +14,7 @@ private:
     // 현재 아이템 위치와 이전 위치(지우기 용도)
     int x, y;
     int width, height;
-    int prevXPos;
+    int prevX;
     bool active; // 아이템 활성화 여부
     ItemType type;
     int invincibleTime;

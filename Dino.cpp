@@ -47,9 +47,9 @@ int Dino::GetYPos() const { return nYPos; }
 // 충돌 박스 리턴
 BoundingBox Dino::GetBoundingBox() const {
     if (bIsSliding) {
-        return {0, Y_BASE + 2, 18, 3}; // 슬라이딩일 때: 좌상단(0, Y_BASE+2), 가로 14, 세로 3
+        return {0, Y_BASE + 2, 17, 3}; // 가로 17, 세로 3
     } else {
-        return {0, Y_BASE - nYPos, 15, 5}; // 기본 상태: 좌상단(0, 점프 위치), 가로 14, 세로 5
+        return {0, Y_BASE - nYPos, 14, 5}; // 가로 14, 세로 5
     }
 }
 
@@ -100,7 +100,8 @@ void Dino::Update()
     if (bisInvincible){
         invincibleTime -= 2;
         if (invincibleTime <= 0){
-        SetInvincible(false, 0);
+            SetInvincible(false, 0);
+            system("cls");
         }
     }
 }

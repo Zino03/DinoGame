@@ -20,7 +20,7 @@ public:
 
     void Update(Dino &dino); // 상태 업데이트
     void TryActivateMode(Dino &dino); // 모드 발동
-    void AddGauge(); // 외부에서 게이지 증가s
+    void AddGauge(int amount); // 외부에서 게이지 증가s
 
     int GetGauge() const; // 현재 게이지 리턴
     int GetModeSpeedOffset() const; // 모드에 따른 속도 변화

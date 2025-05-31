@@ -10,6 +10,8 @@
 #include <Windows.h>
 #include <ctime>
 
+#include <fstream>
+
 constexpr int KEY_ESC = 27;
 constexpr int KEY_UP = 105; // 점프 i
 constexpr int KEY_DOWN = 106; // 슬라이딩 j
@@ -69,12 +71,14 @@ void Manager::GameStart()
                 item.Update();
                 item.DrawItem();
 
+                std::ofstream log("debug_log.txt", std::ios::app); // 덮어쓰기 방지
+                log << "[DEBUG] 아이템 충돌 여부: " << dino.GetBoundingBox().Intersects(item.GetBoundingBox()) << "\n";
                 // 아이템과 충돌 여부 체크
-                if (dino.GetBoundingBox().Intersects(item.GetBoundingBox())) {
+                if (dino.GetBoundingBox().Intersects(item.GetBoundingBox()) && item.IsActive()) {
                     switch (item.GetType()) {
                         // 아이템에 따라 다른 효과 함수 호출
                         case SCORE_ITEM: gameStage.AddScore(100); break;
-                        case GAUGE_ITEM: skill.AddGauge(); break;
+                        case GAUGE_ITEM: skill.AddGauge(20); break;
                         case INVINCIBLE_ITEM: 
                             dino.SetInvincible(true, 100);
                             break;
