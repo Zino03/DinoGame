@@ -56,14 +56,16 @@ void Skill::TryActivateMode(Dino &dino) {
         modeTimer = gauge; // 현재 게이지에 따라 슬로우 모드 지속 시간 결정
     }
 }
+
+// 현재 게이지 반환
 int Skill::GetGauge() const {
     return gauge;
 }
 
+// 모드 상태 반환
 bool Skill::InSpeedMode() const {
     return isSpeedMode;
 }
-
 bool Skill::InSlowMode() const {
     return isSlowMode;
 }

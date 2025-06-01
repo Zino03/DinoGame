@@ -13,8 +13,8 @@ class Obstacle
 {
 private:
     ObstacleType type;
-    int x, y; // 좌표
-    int width, height; // 크기
+    int x, y; // x,y 축 위치
+    int width, height; // 너비, 높이
     int prevX; // 이전 X 위치 저장
 public:
     Obstacle();

@@ -45,7 +45,7 @@ void UIManager::DrawGauge(const Skill& skill) {
     const int barWidth = 20; // 게이지 크기
     int filled = (skill.GetGauge() * barWidth) / 100;
     
-    std::cout << "Gauge : [";
+    std::cout << "Gauge : ["; // 게이지 바 채우기
     for (int i = 0; i < barWidth; ++i) {
         if (i < filled)
             std::cout << "#";
@@ -53,11 +53,16 @@ void UIManager::DrawGauge(const Skill& skill) {
             std::cout << " ";
     }
     std::cout << "] " << skill.GetGauge() << "%\t";
+
+    // 모드에 따라 문구 출력
     if(skill.InSlowMode()){
         std::cout << ">> SLOW MODE <<" << "\n";
     }
     else if(skill.InSpeedMode()){
-         std::cout << ">> SPEED MODE!! <<" << "\n";
+        std::cout << ">> SPEED MODE!! <<" << "\n";
+    }
+    else{
+        std::cout << "                   " << "\n";
     }
 }
 
@@ -67,6 +72,6 @@ void UIManager::ShowGameOver(const GameStage& gameStage)
     system("cls");
     std::cout << "\n\n            Game Over\n";
     std::cout << "           Score : " << gameStage.GetScore() << "\n";
-    system("pause");
+    system("pause"); // 정지
     system("cls");
 }

@@ -11,13 +11,11 @@ enum ItemType {
 // 아이템 관리
 class Item {
 private:
-    // 현재 아이템 위치와 이전 위치(지우기 용도)
-    int x, y;
-    int width, height;
-    int prevX;
+    int x, y; // x, y축 위치
+    int width, height; // 너비, 높이
+    int prevX; // 이전 위치 저장
     bool active; // 아이템 활성화 여부
-    ItemType type;
-    int invincibleTime;
+    ItemType type; // 아이템 종료
 
 public:
     Item();

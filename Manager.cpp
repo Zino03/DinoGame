@@ -12,7 +12,7 @@
 
 #include <fstream>
 
-constexpr int KEY_ESC = 27;
+constexpr int KEY_ESC = 27; // 종료 esc
 constexpr int KEY_UP = 105; // 점프 i
 constexpr int KEY_DOWN = 106; // 슬라이딩 j
 constexpr int KEY_L = 108; // 모드 l
@@ -53,19 +53,15 @@ void Manager::GameStart()
                 
                 // 모드 전환 키 입력 처리
                 if (nCurKey == KEY_L) 
-                    skill.TryActivateMode(dino); 
+                    skill.TryActivateMode(dino);
+                    
+                // 모드 지속 시간 및 게이지 관리
+                skill.Update(dino); 
 
-                // 무적 상태가 아니면 충돌 판정
-                if (!dino.IsInvincible() && dino.GetBoundingBox().Intersects(obs.GetBoundingBox())) {
-                    bIsCollision = true;
-                }
-
-                skill.Update(dino);   // 모드 지속 시간 및 게이지 관리
-                
                 // 아이템 생성
                 if (itemSpawnCooldown-- <= 0 && !item.IsActive()) {
                     item.Spawn();
-                    itemSpawnCooldown = 100 + rand() % 100;
+                    itemSpawnCooldown = 100 + rand() % 100; // 아이템 생성 시간 관리
                 }
                 item.Update();
                 item.DrawItem();
@@ -81,19 +77,24 @@ void Manager::GameStart()
                             dino.SetInvincible(true, 100);
                             break;
                     }
-                    item.Deactivate();
+                    item.Deactivate(); // 아이템 비활성화
                 }
                 
                 if (obs.IsOutOfScreen()) { // 장애물이 화면을 벗어났을 때 새로운 장애물 생성
                     system("cls");
                     obs = Obstacle(); // 위치 초기화 + 랜덤 타입 설정
                 }
-                obs.Update();
-                obs.DrawObstacle();
 
                 // 공룡, 장애물 위치 계속 업데이트
+                obs.Update();
+                obs.DrawObstacle();
                 dino.Update();
                 dino.DrawDino();
+
+                // 무적 상태가 아니면 충돌 판정
+                if (!dino.IsInvincible() && dino.GetBoundingBox().Intersects(obs.GetBoundingBox())) {
+                    bIsCollision = true;
+                }
 
                 // 게임 속도 조절
                 Sleep(gameStage.GetSpeed() + skill.GetModeSpeedOffset()); // 모드에 따른 속도 조절
