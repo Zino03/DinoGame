@@ -11,7 +11,7 @@ private:
     int modeTimer; // 모드 지속 시간 관리
 
     static constexpr int maxGauge = 100; // 게이지 최대치
-    static constexpr double gaugeGainPerFrame = 1; // 프레임 당 게이지 증가량
+    static constexpr int gaugeGainPerFrame = 1; // 프레임 당 게이지 증가량
     static constexpr int speedConsumePerFrame = 2; // 스피드 모드 지속 시간
     static constexpr int slowConsumePerFrame = 1; // 슬로우 모드 시 매 프레임 게이지 소모량
 

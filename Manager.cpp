@@ -15,7 +15,6 @@
 constexpr int KEY_ESC = 27;
 constexpr int KEY_UP = 105; // 점프 i
 constexpr int KEY_DOWN = 106; // 슬라이딩 j
-constexpr int SLEEP_TIME = 35;
 constexpr int KEY_L = 108; // 모드 l
 
 // 키 입력 받기
@@ -71,10 +70,9 @@ void Manager::GameStart()
                 item.Update();
                 item.DrawItem();
 
-                std::ofstream log("debug_log.txt", std::ios::app); // 덮어쓰기 방지
-                log << "[DEBUG] 아이템 충돌 여부: " << dino.GetBoundingBox().Intersects(item.GetBoundingBox()) << "\n";
                 // 아이템과 충돌 여부 체크
                 if (dino.GetBoundingBox().Intersects(item.GetBoundingBox()) && item.IsActive()) {
+                    Beep(750, 100); // 750Hz 소리, 100ms
                     switch (item.GetType()) {
                         // 아이템에 따라 다른 효과 함수 호출
                         case SCORE_ITEM: gameStage.AddScore(100); break;
@@ -91,18 +89,19 @@ void Manager::GameStart()
                     obs = Obstacle(); // 위치 초기화 + 랜덤 타입 설정
                 }
                 obs.Update();
-                obs.DrawTree();
+                obs.DrawObstacle();
 
                 // 공룡, 장애물 위치 계속 업데이트
                 dino.Update();
                 dino.DrawDino();
 
                 // 게임 속도 조절
-                Sleep(gameStage.GetSpeed() + skill.GetModeSpeedOffset()); // ✅ 모드에 따른 속도 조절
+                Sleep(gameStage.GetSpeed() + skill.GetModeSpeedOffset()); // 모드에 따른 속도 조절
                 gameStage.AddScore(1); // 점수 증가
 
                 // 장애물 충돌 시 게임 오버 화면 호출
                 if (bIsCollision) {
+                    Beep(750, 100); // 750Hz 소리, 100ms
                     UIManager::ShowGameOver(gameStage);
                     break;
                 }

@@ -1,5 +1,6 @@
 #include "Skill.h"
 #include "Dino.h"
+#include <Windows.h>
 
 Skill::Skill() 
     : gauge(0), isSpeedMode(false), isSlowMode(false), modeTimer(0) {}
@@ -35,6 +36,7 @@ void Skill::Update(Dino &dino) {
 
     // 스피드 모드 혹은 슬로우 모드 유지 시간 관리
     if ((isSpeedMode || isSlowMode) && --modeTimer <= 0) {
+        system("cls");
         isSpeedMode = false;
         isSlowMode = false;
         dino.SetInvincible(false, 0);
@@ -46,7 +48,7 @@ void Skill::TryActivateMode(Dino &dino) {
         // 스피드 모드 발동
         isSpeedMode = true;
         dino.SetInvincible(true, maxGauge);
-        modeTimer = maxGauge;
+        modeTimer = maxGauge / 2;
     } else if (gauge > 0) { // 게이지가 다 차지 않으면 슬로우 모드
         // 슬로우 모드 발동
         isSlowMode = true;
@@ -76,7 +78,7 @@ void Skill::AddGauge(int amount) {
 
 // 현재 모드에 따른 속도 조정값 반환
 int Skill::GetModeSpeedOffset() const {
-    if (isSpeedMode) return -15;   // 빠르게
-    if (isSlowMode) return +15;    // 느리게
+    if (isSpeedMode) return -25;   // 빠르게
+    if (isSlowMode) return +25;    // 느리게
     return 0;                      // 기본
 }

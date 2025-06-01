@@ -10,7 +10,7 @@ public:
     static void StartScreen(); // 시작 화면
     static void DrawScore(const GameStage& gameStage, const Skill& skill); // 점수판
     static void ShowGameOver(const GameStage& gameStage); // 게임 오버 화면
-    static void DrawGauge(int gauge); // 게이지 화면
+    static void DrawGauge(const Skill& skill); // 게이지 화면
 };
 
 #endif

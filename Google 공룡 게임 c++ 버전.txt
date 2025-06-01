@@ -13,7 +13,7 @@ g++ main.cpp Console.cpp Dino.cpp Manager.cpp Obstacle.cpp UIManager.cpp GameSta
 -> l키
 게이지를 꽉 채우면 스피드 모드 사용 가능
 게이지를 소모하여 슬로우 모드 사용 가능
-아이템 (점수, 게이지) ----------- x
+아이템 (점수, 게이지) ----------- o
 
 디버깅 (파일에 디버깅 내용 출력)
 #include <fstream>

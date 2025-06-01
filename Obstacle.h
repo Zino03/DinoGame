@@ -19,7 +19,7 @@ private:
 public:
     Obstacle();
     void Update(); // 위치 이동
-    void DrawTree(); // 콘솔에 출력
+    void DrawObstacle(); // 콘솔에 출력
     bool IsOutOfScreen(); // 화면에서 벗어났는지 확인
     BoundingBox GetBoundingBox() const; // 충돌 박스
 };
